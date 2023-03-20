@@ -2,8 +2,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const menuList = document.querySelector(".menu-list");
 const menuItems = document.querySelectorAll(".menu-list li a");
 const content = document.querySelector(".content");
-const svgMask = document.querySelector(".mask");
-const svgMaskRect = document.querySelector(".mask-rect");
+const links = document.querySelectorAll(".link");
 
 gsap.fromTo(
   ".box",
@@ -134,5 +133,57 @@ menuItems.forEach(function (item) {
       duration: 1,
       ease: "power3.inOut",
     });
+  });
+});
+
+links.forEach((link) => {
+  link.addEventListener("click", () => {
+    gsap.to(menuList, {
+      height: 0,
+      duration: 1,
+      ease: "power3.inOut",
+      onComplete: function () {
+        menuList.classList.remove("open");
+        content.style.transform = "none";
+      },
+    });
+
+    gsap.to(content, {
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      ease: "power3.inOut",
+      onComplete: () => {
+        content.style.transform = "none";
+        gsap.set(document.body, { overflow: "visible" });
+        gsap.set(menuToggle, {
+          top: "auto",
+        });
+      },
+    });
+
+    gsap.fromTo(
+      content,
+      {
+        clipPath: `inset(${window.scrollY}px 0 ${
+          content.scrollHeight - (window.scrollY + window.innerHeight)
+        }px round 30px)`,
+      },
+      {
+        duration: 1,
+        ease: "power3.inOut",
+        clipPath: `inset(${window.scrollY}px 0 ${
+          content.scrollHeight - (window.scrollY + window.innerHeight)
+        }px round 0px)`,
+        onStart: () => {
+          menuToggle.classList.add("do-not-handle-events");
+        },
+        onComplete: () => {
+          gsap.set(content, { clipPath: "none" });
+          menuToggle.classList.remove("do-not-handle-events");
+        },
+      }
+    );
   });
 });
