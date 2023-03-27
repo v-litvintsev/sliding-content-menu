@@ -7,10 +7,10 @@ const links = document.querySelectorAll(".link");
 gsap.fromTo(
   ".box",
   {
-    y: -20,
+    y: -100,
   },
   {
-    y: 20,
+    y: 100,
     scrollTrigger: {
       trigger: ".box",
       scrub: true,
