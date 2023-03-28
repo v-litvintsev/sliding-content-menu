@@ -1,6 +1,5 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const menuList = document.querySelector(".menu-list");
-const menuItems = document.querySelectorAll(".menu-list li a");
 const content = document.querySelector(".content");
 const links = document.querySelectorAll(".link");
 
@@ -129,26 +128,6 @@ menuToggle.addEventListener("click", function () {
   } else {
     handleMenuOpen();
   }
-});
-
-menuItems.forEach(function (item) {
-  item.addEventListener("click", function () {
-    gsap.to(menuList, {
-      height: 0,
-      duration: 1,
-      ease: "power3.inOut",
-      onComplete: function () {
-        menuList.classList.remove("open");
-      },
-    });
-    gsap.to(content, {
-      x: 0,
-      y: 0,
-      scale: 1,
-      duration: 1,
-      ease: "power3.inOut",
-    });
-  });
 });
 
 links.forEach((link) => {
